@@ -1,0 +1,66 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+    <title>Animation loop</title>    
+        <script src="http://code.jquery.com/jquery-1.6.1.min.js"></script>     
+        <script>                  
+             window.requestAnimFrame = (function(){
+              return  window.requestAnimationFrame       || 
+                      window.webkitRequestAnimationFrame || 
+                      window.mozRequestAnimationFrame    || 
+                      window.oRequestAnimationFrame      || 
+                      window.msRequestAnimationFrame     || 
+                      function( callback, canvas){
+                        window.setTimeout(callback, 1000 / 60);
+                      };
+            })();
+                        
+            var canvas, context;
+            var x = 100;
+            var y = 100;
+            
+            function init(){
+                canvas = document.createElement( 'canvas' );
+                canvas.width = 400;
+                canvas.height = 400;
+
+                context = canvas.getContext( '2d' );
+
+                document.body.appendChild( canvas );
+
+                context.fillStyle = 'rgb(245,245,245)';
+                context.fillRect( 0, 0, 400, 400 );
+            }
+
+            function animate(){    
+                update()
+                draw();
+                //window.webkitRequestAnimationFrame ( animate, canvas );
+                requestAnimFrame(animate, canvas);
+            }
+
+            function update(){   
+                var time = new Date().getTime() * 0.002;
+                x = Math.sin( time ) * 96 + 128;
+                y = Math.cos( time * 0.9 ) * 96 + 128;
+            }
+
+            function draw(){    
+                 context.fillStyle = 'rgb(245,245,245)';
+                 context.fillRect( 0, 0, 400, 400 );
+
+                 context.fillStyle = 'rgb(255,0,0)';
+                 context.fillRect( x, y, 10, 10 );
+            }
+            
+            $(document).ready(function(){
+                init();
+                animate();                
+            });
+   
+        </script>                        
+    </head> 
+    <body>         
+                             
+    </body>
+</html>
